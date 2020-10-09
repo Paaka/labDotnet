@@ -13,7 +13,9 @@ namespace labDotnet.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
-            var today = "28 maja 2033";
+            var dateWithTime = DateTime.Now.ToShortDateString();
+  
+            ViewData["date"] = dateWithTime;
             return View();
         }
 
