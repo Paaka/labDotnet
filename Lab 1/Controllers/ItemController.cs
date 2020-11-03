@@ -15,8 +15,8 @@ namespace labDotnet.Controllers
         public IActionResult Index()
         {
             List<Product> listOfItems = new List<Product>();
-            listOfItems.Add(new Product() { Name = "Ghost of Tsushima", Description  = "Open world RPG", Price =250});
-            listOfItems.Add(new Product() { Name = "World of Warcraft: Shadowlands", Description = "MMORPG", Price = 160 });
+            listOfItems.Add(new Product() { ProductID=1, Name = "Ghost of Tsushima", Description  = "Open world RPG", Price =250, Category="Games"});
+            listOfItems.Add(new Product() { ProductID = 2, Name = "World of Warcraft: Shadowlands", Description = "MMORPG", Price = 160, Category = "Games" });
 
             return View(listOfItems);
         }
