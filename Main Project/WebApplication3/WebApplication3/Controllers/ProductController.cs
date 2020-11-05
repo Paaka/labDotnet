@@ -16,6 +16,8 @@ namespace WebApplication3.Controllers
             this.productRepository = productRepository;
         }
 
-        public ViewResult List() => View(productRepository.Products);
+        public ViewResult ListAll() => View(productRepository.Products);
+
+        public ViewResult List(string category) => View(productRepository.Products.Where(p => p.Category == category));
     }
 }
