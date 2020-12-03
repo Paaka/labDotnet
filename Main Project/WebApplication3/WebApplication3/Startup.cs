@@ -43,10 +43,14 @@ namespace WebApplication3
             app.UseRouting();
 
             app.UseEndpoints(routes => {
+                    
+                
 
                 routes.MapControllerRoute(
                      name: "default",
                      pattern: "{controller=Product}/{action=List}/{id?}");
+
+               
 
                 routes.MapControllerRoute(
                     name: null,
@@ -56,6 +60,16 @@ namespace WebApplication3
                         controller= "Product",
                         action = "List",
                     });
+
+                routes.MapControllerRoute(
+                    name: null,
+                    pattern: "Admin/{action=Index}",
+                    defaults: new
+                    {
+                        controller = "Admin",
+                        action = "Index",
+                    });
+                    
 
             }) ;
             SeedData.EnsurePopulated(app);
