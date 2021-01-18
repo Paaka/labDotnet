@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebApplication3.Models;
+using WebApplication3.Middlewares;
+using Microsoft.AspNetCore.Identity;
 
 namespace WebApplication3
 {
@@ -28,6 +30,14 @@ namespace WebApplication3
             services.AddTransient<IProductRepository, EEProductRepository>();
             services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(Configuration["Data:SportStoreProducts:ConnectionString"]));
+
+
+            services.AddDbContext<AppIdentityDbContext>(options =>
+                options.UseSqlServer(Configuration["Data:SportStoreProducts:ConnectionString"]));
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                    .AddEntityFrameworkStores<AppIdentityDbContext>()
+                    .AddDefaultTokenProviders();
+                    
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -37,10 +47,11 @@ namespace WebApplication3
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseMiddleware<TimeMiddleware>();
             app.UseStatusCodePages();
             app.UseStaticFiles();
             app.UseRouting();
+            app.UseAuthentication();
 
             app.UseEndpoints(routes => {
                     
