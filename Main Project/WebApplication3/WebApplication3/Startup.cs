@@ -13,6 +13,7 @@ using WebApplication3.Models;
 using WebApplication3.Middlewares;
 using Microsoft.AspNetCore.Identity;
 
+
 namespace WebApplication3
 {
     public class Startup
@@ -35,15 +36,26 @@ namespace WebApplication3
                     .AddEntityFrameworkStores<AppDbContext>()
                     .AddDefaultTokenProviders();
 
+            services.AddControllers();
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+           
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.RoutePrefix = "api";
+            });
+
             app.UseMiddleware<TimeMiddleware>();
             app.UseDeveloperExceptionPage();
             app.UseStatusCodePages();
