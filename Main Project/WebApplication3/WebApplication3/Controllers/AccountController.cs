@@ -6,18 +6,23 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using WebApplication3.Models.ViewModel;
+using WebApplication3.Models;
 
 
 namespace WebApplication3.Controllers
 {
+    [Authorize]
     public class AccountController : Controller
     {
         private UserManager<IdentityUser> userManager;
         private SignInManager<IdentityUser> signInManager;
+
         public AccountController(UserManager<IdentityUser> userMgr, SignInManager<IdentityUser> signInMgr)
         {
             userManager = userMgr;
             signInManager = signInMgr;
+
+            IdentitySeedData.EnsurePopulated(userMgr).Wait();
         }
 
         [AllowAnonymous]

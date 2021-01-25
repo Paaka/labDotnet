@@ -27,17 +27,14 @@ namespace WebApplication3
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
+            services.AddServerSideBlazor();
             services.AddTransient<IProductRepository, EEProductRepository>();
             services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(Configuration["Data:SportStoreProducts:ConnectionString"]));
-
-
-            services.AddDbContext<AppIdentityDbContext>(options =>
-                options.UseSqlServer(Configuration["Data:SportStoreProducts:ConnectionString"]));
             services.AddIdentity<IdentityUser, IdentityRole>()
-                    .AddEntityFrameworkStores<AppIdentityDbContext>()
+                    .AddEntityFrameworkStores<AppDbContext>()
                     .AddDefaultTokenProviders();
-                    
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,10 +45,13 @@ namespace WebApplication3
                 app.UseDeveloperExceptionPage();
             }
             app.UseMiddleware<TimeMiddleware>();
+            app.UseDeveloperExceptionPage();
             app.UseStatusCodePages();
             app.UseStaticFiles();
-            app.UseRouting();
             app.UseAuthentication();
+            app.UseRouting();
+            app.UseAuthorization();
+            
 
             app.UseEndpoints(routes => {
                     
@@ -80,9 +80,10 @@ namespace WebApplication3
                         controller = "Admin",
                         action = "Index",
                     });
-                    
 
-            }) ;
+                routes.MapBlazorHub();
+            });
+
             SeedData.EnsurePopulated(app);
         }
     }
